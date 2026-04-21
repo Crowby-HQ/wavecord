@@ -8,7 +8,7 @@ from collections.abc import Sequence
 from functools import partial
 from logging import getLogger
 from random import choice
-from typing import Any, ClassVar, Dict, Generic, List, Optional, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, Generic, List, Optional, cast
 
 from .errors import NoNodesAvailable, PlayerNotConnected
 from .node import Node
@@ -21,8 +21,6 @@ if TYPE_CHECKING:
 
     from .player import Player
     from .region import Group, Region, VoiceRegion
-
-from typing import TYPE_CHECKING
 
 _log = getLogger(__name__)
 __all__ = ("NodePool",)
@@ -80,14 +78,14 @@ class NodePool(Generic[ClientT]):
 
     # Class properties
     @classproperty
-    def label_to_node(cls) -> Dict[str, Node[ClientT]]: # type: ignore[misc]
+    def label_to_node(cls) -> Dict[str, Node[ClientT]]:  # type: ignore[misc]
         """All nodes keyed by their label."""
-        return cls._nodes # type: ignore[return-value]
+        return cls._nodes  # type: ignore[return-value]
 
     @classproperty
-    def nodes(cls) -> List[Node[ClientT]]: # type: ignore[misc]
+    def nodes(cls) -> List[Node[ClientT]]:  # type: ignore[misc]
         """All nodes that are currently available."""
-        return [n for n in cls._nodes.values() if n.available] # type: ignore[return-value]
+        return [n for n in cls._nodes.values() if n.available]  # type: ignore[return-value]
 
     # Node lifecycle
     async def create_node(
@@ -291,7 +289,9 @@ class NodePool(Generic[ClientT]):
             else list(chosen_strategies)
         )
 
-        candidates: list[Node[Any]] = cast("list[Node[ClientT]]", cls.nodes) # pyright: ignore
+        candidates: list[Node[Any]] = cast(
+            "list[Node[ClientT]]", cls.nodes
+        )  # pyright: ignore
 
         for strategy in actual:
             if isinstance(strategy, Strategy):
@@ -331,7 +331,7 @@ class NodePool(Generic[ClientT]):
         ------
         :exc:`~wavecord.NoNodesAvailable`
         """
-        available = cast("list[Node[ClientT]]", cls.nodes) # pyright: ignore
+        available = cast("list[Node[ClientT]]", cls.nodes)  # pyright: ignore
         if not available:
             raise NoNodesAvailable
         return choice(available)
@@ -348,7 +348,7 @@ class NodePool(Generic[ClientT]):
         -------
         :class:`~wavecord.Node` or None
         """
-        return cls._nodes.get(label) # type: ignore[return-value]
+        return cls._nodes.get(label)  # type: ignore[return-value]
 
     # Dunder
     def __repr__(self) -> str:
