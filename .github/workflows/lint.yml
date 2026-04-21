@@ -46,3 +46,6 @@ jobs:
 
       - name: Run Ruff (Lint)
         run: poetry run ruff check wavecord tests
+
+      - name: Run Pyright
+        run: poetry run pyright
