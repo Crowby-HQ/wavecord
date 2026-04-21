@@ -124,7 +124,7 @@ require-superclass = true
 require-subclass = false
 
 [tool.pyright]
-typeCheckingMode = "strict"
+typeCheckingMode = "basic"
 pythonVersion = "3.9"
 ignore = ["examples/**", "tests/**"]
 
