@@ -8,7 +8,7 @@ from importlib.metadata import PackageNotFoundError, version
 from os import getenv
 from typing import TYPE_CHECKING, Any
 
-from .errors import MultipleCompatibleLibraries, NoCompatibleLibraries
+from .errors import NoCompatibleLibraries
 
 __all__ = (
     "Client",
@@ -28,7 +28,7 @@ __all__ = (
 )
 
 # Library detection
-_SUPPORTED = ("nextcord", "disnake", "py-cord", "discord.py", "discord")
+_SUPPORTED = ("nextcord", "disnake", "py-cord", "discord")
 _found: list[str] = []
 
 for _lib in _SUPPORTED:
@@ -39,14 +39,33 @@ for _lib in _SUPPORTED:
     else:
         _found.append(_lib)
 
-if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
-    if len(_found) == 0:
-        raise NoCompatibleLibraries
-    elif len(_found) > 1:
-        raise MultipleCompatibleLibraries(_found)
+# Prefer the first discovered library. If none is installed, expose lazy-failing
+# placeholders so modules that do not actually need a Discord library can still
+# be imported and tested.
+_library = _found[0] if _found else None
 
+
+class _Missing:
+    def __getattr__(self, name: str) -> Any:
+        raise NoCompatibleLibraries(
+            "No compatible Discord library was found. Please install one of: "
+            "discord.py, nextcord, disnake, py-cord."
+        )
+
+
+if _library is None and not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
+    Client = Guild = StageChannel = VoiceChannel = VoiceProtocol = _Missing()
+    Connectable = GuildChannel = ExponentialBackoff = _Missing()
+    MISSING = object()
+    version_info = None
+
+    if TYPE_CHECKING:
+        GuildVoiceStatePayload = dict[str, Any]
+        VoiceServerUpdatePayload = dict[str, Any]
+
+else:
     # nextcord spams RuntimeWarning on import — suppress it
-    if _found[0] == "nextcord":
+    if _library == "nextcord":
         from warnings import simplefilter
 
         simplefilter("ignore", RuntimeWarning)
@@ -55,88 +74,88 @@ if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
         except ImportError:
             pass
         else:
-            simplefilter("ignore", DistributionWarning) # type: ignore
+            simplefilter("ignore", DistributionWarning)  # type: ignore[arg-type]
         finally:
             simplefilter("always", RuntimeWarning)
 
-_library = _found[0] if _found else "discord"
+    # Version check
+    if _library == "nextcord":
+        from nextcord import version_info
+    elif _library == "disnake":
+        from disnake import version_info
+    else:
+        from discord import version_info
 
-# Version check
-if _library == "nextcord":
-    from nextcord import version_info
-elif _library == "disnake":
-    from disnake import version_info
-else:
-    from discord import version_info
+    if _library == "nextcord":
+        if version_info.major not in (2, 3):
+            raise RuntimeError("WaveCord requires nextcord version 2 or 3.")
+    elif version_info.major != 2:
+        raise RuntimeError(f"WaveCord requires version 2 of {_library}.")
 
-if _library == "nextcord":
-    if version_info.major not in (2, 3):
-        raise RuntimeError("WaveCord requires nextcord version 2 or 3.")
-elif version_info.major != 2:
-    raise RuntimeError(f"WaveCord requires version 2 of {_library}.")
-
-# Imports by library
-if _library == "nextcord":
-    from nextcord import (
-        Client,
-        Guild,
-        StageChannel,
-        VoiceChannel,
-        VoiceProtocol,
-        version_info,
-    )
-    from nextcord.abc import Connectable, GuildChannel
-    from nextcord.backoff import ExponentialBackoff
-    from nextcord.utils import MISSING
-
-    if TYPE_CHECKING:
-        from nextcord.types.voice import (
-            GuildVoiceState as GuildVoiceStatePayload,
-            VoiceServerUpdate as VoiceServerUpdatePayload,
+    # Imports by library
+    if _library == "nextcord":
+        from nextcord import (
+            Client,
+            Guild,
+            StageChannel,
+            VoiceChannel,
+            VoiceProtocol,
+            version_info,
         )
+        from nextcord.abc import Connectable, GuildChannel
+        from nextcord.backoff import ExponentialBackoff
+        from nextcord.utils import MISSING
 
-elif _library == "disnake":
-    from disnake import (
-        Client,
-        Guild,
-        StageChannel,
-        VoiceChannel,
-        VoiceProtocol,
-        version_info,
-    )
-    from disnake.abc import Connectable, GuildChannel
-    from disnake.backoff import ExponentialBackoff
-    from disnake.utils import MISSING
-
-    if TYPE_CHECKING:
-        if version_info >= (2, 6):
-            from disnake.types.gateway import (
-                VoiceServerUpdateEvent as VoiceServerUpdatePayload,
+        if TYPE_CHECKING:
+            from nextcord.types.voice import (
+                GuildVoiceState as GuildVoiceStatePayload,
             )
-        else:
-            from disnake.types.voice import (
-                VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
+            from nextcord.types.voice import (
+                VoiceServerUpdate as VoiceServerUpdatePayload,
             )
-        from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
 
-else:
-    from discord import (
-        Client,
-        Guild,
-        StageChannel,
-        VoiceChannel,
-        VoiceProtocol,
-        version_info,
-    )
-    from discord.abc import Connectable, GuildChannel
-    from discord.backoff import ExponentialBackoff
-    from discord.utils import MISSING
-
-    if TYPE_CHECKING:
-        from discord.types.voice import (
-            GuildVoiceState as GuildVoiceStatePayload,
-            VoiceServerUpdate as VoiceServerUpdatePayload,
+    elif _library == "disnake":
+        from disnake import (
+            Client,
+            Guild,
+            StageChannel,
+            VoiceChannel,
+            VoiceProtocol,
+            version_info,
         )
+        from disnake.abc import Connectable, GuildChannel
+        from disnake.backoff import ExponentialBackoff
+        from disnake.utils import MISSING
+
+        if TYPE_CHECKING:
+            if version_info >= (2, 6):
+                from disnake.types.gateway import (
+                    VoiceServerUpdateEvent as VoiceServerUpdatePayload,
+                )
+            else:
+                from disnake.types.voice import (
+                    VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
+                )
+            from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
+
+    else:
+        from discord import (
+            Client,
+            Guild,
+            StageChannel,
+            VoiceChannel,
+            VoiceProtocol,
+            version_info,
+        )
+        from discord.abc import Connectable, GuildChannel
+        from discord.backoff import ExponentialBackoff
+        from discord.utils import MISSING
+
+        if TYPE_CHECKING:
+            from discord.types.voice import GuildVoiceState as GuildVoiceStatePayload
+            from discord.types.voice import (
+                VoiceServerUpdate as VoiceServerUpdatePayload,
+            )
 
 # JSON serialiser
 try:
