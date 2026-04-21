@@ -1,0 +1,86 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in WaveCord
+labels:
+  - "bug: unconfirmed"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for reporting a bug! 🐛
+        Please fill out this form so we can reproduce and fix the issue quickly.
+
+  - type: input
+    attributes:
+      label: Summary
+      description: A short description of the bug.
+      placeholder: e.g. Player throws AttributeError after disconnect
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Reproduction Steps
+      description: Exact steps to reproduce the issue.
+      placeholder: |
+        1. Connect a node
+        2. Join a voice channel
+        3. Call `await player.disconnect()`
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Minimal Reproducible Code
+      description: The smallest code snippet that triggers the bug.
+      render: python
+      placeholder: |
+        node = await pool.create_node(...)
+        player = await ctx.author.voice.channel.connect(cls=Player)
+        await player.disconnect()
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: What actually happened? Include the full traceback.
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Lavalink Version
+      description: Run `java -jar Lavalink.jar --version` or check your logs.
+      placeholder: "4.0.8"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Environment
+      description: Python version, WaveCord version, OS.
+      placeholder: "Python 3.12.3 / WaveCord 1.0.0 / Ubuntu 22.04"
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and found no duplicates.
+          required: true
+        - label: I included the full traceback or error message.
+          required: true
+        - label: I tested with the latest version of WaveCord.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: Logs, workarounds, related issues — anything else useful.
