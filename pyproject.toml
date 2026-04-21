@@ -72,8 +72,8 @@ orjson = "^3.9.0"
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-sphinx = "^8.0.0"
-sphinx-autobuild = "^2024.9.0"
+sphinx = { version = "^8.0.0", python = ">=3.10,<4.0" }
+sphinx-autobuild = { version = "^2024.9.0", python = ">=3.10,<4.0" }
 sphinxcontrib-trio = "^1.1.2"
 furo = "^2024.8.6"
 sphinx-inline-tabs = "^2023.4.21"
