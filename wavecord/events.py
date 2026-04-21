@@ -9,8 +9,8 @@ from .track import Track
 from .type_variables import ClientT
 
 if TYPE_CHECKING:
-    from .typings import EventPayload
     from .player import Player
+    from .typings import EventPayload
 
 __all__ = (
     "WavecordEvent",

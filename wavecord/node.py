@@ -9,7 +9,7 @@ import warnings
 from asyncio import Event, TimeoutError, create_task, gather, sleep, wait_for
 from logging import getLogger
 from traceback import print_exc
-from typing import TYPE_CHECKING, Any, Dict, Generic, List, Optional, Sequence, cast
+from typing import TYPE_CHECKING, Any, Generic, Sequence, cast
 
 import aiohttp
 import yarl
@@ -46,7 +46,6 @@ from .warnings import UnknownVersionWarning, UnsupportedVersionWarning
 
 if TYPE_CHECKING:
     from asyncio import Task
-    from typing import Literal, Union
 
     from aiohttp import ClientWebSocketResponse
 
@@ -483,7 +482,7 @@ class Node(Generic[ClientT]):
 
         try:
             await self._connect_to_websocket(headers=headers, session=self.__session)
-        except Exception as exc: # noqa: BLE001
+        except Exception as exc:
             _log.error(
                 "Failed to connect to %s: %s",
                 self._rest_uri,
@@ -546,7 +545,7 @@ class Node(Generic[ClientT]):
         self.__session = None
         self._ready.clear()
         self._event_queue.clear()
-      
+
     # WebSocket listener
     async def _ws_listener(self) -> None:
         if self._ws is None:
@@ -972,7 +971,7 @@ class Node(Generic[ClientT]):
         if voice_state is None or voice_state.channel is None:
             return
 
-        from .player import Player # noqa: PLC0415 (avoid circular at top-level)
+        from .player import Player
 
         player = (cls or Player)(self._client, voice_state.channel)
         player.set_state(state)
@@ -1018,7 +1017,7 @@ class Node(Generic[ClientT]):
         path: str,
         json: OutgoingMessage | None = None,
         params: OutgoingMessage | None = None,
-    ) -> Any:  # noqa: ANN401
+    ) -> Any:
         if self.__session is None:
             self.__session = await self._create_session()
 

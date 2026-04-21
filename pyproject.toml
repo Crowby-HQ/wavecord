@@ -43,6 +43,7 @@ python = ">=3.9,<4.0"
 aiohttp = "^3.10.0"
 yarl = "^1.9.0"
 orjson = { version = "^3.9.0", optional = true }
+discord-py = "^2.7.1"
 
 [tool.poetry.extras]
 speedups = ["orjson"]
@@ -72,12 +73,12 @@ orjson = "^3.9.0"
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-sphinx = { version = "^8.0.0", python = ">=3.10,<4.0" }
-sphinx-autobuild = { version = "^2024.9.0", python = ">=3.10,<4.0" }
-sphinxcontrib-trio = "^1.1.2"
-furo = "^2024.8.6"
-sphinx-inline-tabs = "^2023.4.21"
-sphinx-autodoc-typehints = { version = "^2.4.0", python = ">=3.10,<4.0" }
+sphinx = { version = "^8.0.0", python = ">=3.11,<4.0" }
+sphinx-autobuild = { version = "^2024.9.0", python = ">=3.11,<4.0" }
+sphinxcontrib-trio = { version = "^1.1.2", python = ">=3.11,<4.0" }
+furo = { version = "^2024.8.6", python = ">=3.11,<4.0" }
+sphinx-inline-tabs = { version = "^2023.4.21", python = ">=3.11,<4.0" }
+sphinx-autodoc-typehints = { version = "^2.4.0", python = ">=3.11,<4.0" }
 
 [tool.taskipy.tasks]
 pre-commit = "pre-commit install --install-hooks"

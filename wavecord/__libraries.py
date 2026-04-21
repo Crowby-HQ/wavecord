@@ -51,7 +51,7 @@ if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
 
         simplefilter("ignore", RuntimeWarning)
         try:
-            from nextcord.health_check import DistributionWarning # type: ignore
+            from nextcord.health_check import DistributionWarning  # type: ignore
         except ImportError:
             pass
         else:
@@ -115,7 +115,7 @@ elif _library == "disnake":
             )
         else:
             from disnake.types.voice import (
-                VoiceServerUpdate as VoiceServerUpdatePayload, # pyright: ignore
+                VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
             )
         from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
 
@@ -134,15 +134,15 @@ else:
 
     if TYPE_CHECKING:
         from discord.types.voice import (
-            GuildVoiceState as GuildVoiceStatePayload, # noqa: TCH004
-            VoiceServerUpdate as VoiceServerUpdatePayload, # noqa: TCH004
+            GuildVoiceState as GuildVoiceStatePayload,
+            VoiceServerUpdate as VoiceServerUpdatePayload,
         )
 
 # JSON serialiser
 try:
     from orjson import dumps as _orjson_dumps, loads
 
-    def dumps(obj: Any) -> str:  # noqa: ANN401
+    def dumps(obj: Any) -> str:
         """Serialize *obj* to a JSON string using orjson."""
         return _orjson_dumps(obj).decode()
 

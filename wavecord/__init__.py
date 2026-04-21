@@ -14,22 +14,22 @@ from .errors import (
     HTTPException,
     HTTPNotFound,
     HTTPUnauthorized,
-    WavecordError,
     MultipleCompatibleLibraries,
     NoCompatibleLibraries,
-    NoNodesAvailable,
     NodeAlreadyConnected,
     NodeAlreadyExists,
     NodeNotConnected,
+    NoNodesAvailable,
     PlayerNotConnected,
     TrackLoadException,
+    WavecordError,
 )
 from .events import (
-    WavecordEvent,
     TrackEndEvent,
     TrackExceptionEvent,
     TrackStartEvent,
     TrackStuckEvent,
+    WavecordEvent,
     WebSocketClosedEvent,
 )
 from .filter import (
