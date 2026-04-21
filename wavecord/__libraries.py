@@ -121,8 +121,6 @@ if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
             from disnake.utils import MISSING
 
             if TYPE_CHECKING:
-                from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
-
                 if version_info >= (2, 6):
                     from disnake.types.gateway import (
                         VoiceServerUpdateEvent as VoiceServerUpdatePayload,
@@ -131,6 +129,7 @@ if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
                     from disnake.types.voice import (
                         VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
                     )
+                from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
 
         else:
             from discord import (
