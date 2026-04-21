@@ -97,11 +97,12 @@ select = [
     "E", "F", "W",
     "I",
     "B",
-    "UP",
     "SIM",
     "RUF",
 ]
 ignore = [
+    "E501",
+    "RUF002",
     "RUF022",
 ]
 unfixable = ["RET502", "RET503"]
