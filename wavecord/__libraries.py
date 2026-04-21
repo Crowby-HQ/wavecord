@@ -127,9 +127,9 @@ if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
                     )
                 else:
                     from disnake.types.voice import (
+                        GuildVoiceState as GuildVoiceStatePayload,
                         VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
                     )
-                from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
 
         else:
             from discord import (
