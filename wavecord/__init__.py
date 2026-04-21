@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Lyra — A modern, async-first Lavalink v4 client for Python Discord libraries.
+"""WaveCord - A modern, async-first Lavalink v4 client for Python Discord libraries.
 
 :copyright: (c) 2024-Present Crowby Inc.
 :license: MIT, see LICENSE for more details.
@@ -14,7 +14,7 @@ from .errors import (
     HTTPException,
     HTTPNotFound,
     HTTPUnauthorized,
-    LyraError,
+    WavecordError,
     MultipleCompatibleLibraries,
     NoCompatibleLibraries,
     NoNodesAvailable,
@@ -25,7 +25,7 @@ from .errors import (
     TrackLoadException,
 )
 from .events import (
-    LyraEvent,
+    WavecordEvent,
     TrackEndEvent,
     TrackExceptionEvent,
     TrackStartEvent,
@@ -121,7 +121,7 @@ __all__ = (
     "RotatingNanoIPRoutePlannerStatus",
     "RoutePlannerStatus",
     # Events
-    "LyraEvent",
+    "WavecordEvent",
     "TrackEndEvent",
     "TrackExceptionEvent",
     "TrackStartEvent",
@@ -132,7 +132,7 @@ __all__ = (
     "HTTPException",
     "HTTPNotFound",
     "HTTPUnauthorized",
-    "LyraError",
+    "WavecordError",
     "MultipleCompatibleLibraries",
     "NoCompatibleLibraries",
     "NoNodesAvailable",
