@@ -1,0 +1,152 @@
+[tool.poetry]
+name = "wavecord"
+version = "1.0.0"
+description = "A modern, async-first Lavalink v4 client for Python Discord libraries."
+authors = ["Crowby Studios <hello@crowby.dev>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Crowby-Studios/wavecord"
+homepage = "https://wavecord.crowby.dev"
+documentation = "https://wavecord.readthedocs.io"
+keywords = [
+    "discord",
+    "lavalink",
+    "nextcord",
+    "disnake",
+    "pycord",
+    "discord.py",
+    "music",
+    "audio",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: AsyncIO",
+    "Framework :: aiohttp",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+packages = [{ include = "wavecord" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiohttp = "^3.10.0"
+yarl = "^1.9.0"
+orjson = { version = "^3.9.0", optional = true }
+
+[tool.poetry.extras]
+speedups = ["orjson"]
+
+[tool.poetry.group.dev.dependencies]
+pyright = "^1.1.390"
+ruff = "^0.9.0"
+taskipy = "^1.14.0"
+pre-commit = "^4.0.0"
+python-dotenv = "^1.0.0"
+slotscheck = "^0.19.0"
+typing-extensions = "^4.12.0"
+pytest = "^8.0.0"
+pytest-asyncio = "^0.24.0"
+
+[tool.poetry.group.lint.dependencies]
+nextcord = "^3.0.1"
+disnake = "^2.9.0"
+py-cord = "^2.6.0"
+"discord.py" = "^2.4.0"
+orjson = "^3.9.0"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^8.0.0"
+sphinx-autobuild = "^2024.9.0"
+sphinxcontrib-trio = "^1.1.2"
+furo = "^2024.8.6"
+sphinx-inline-tabs = "^2023.4.21"
+sphinx-autodoc-typehints = "^2.4.0"
+
+[tool.taskipy.tasks]
+pre-commit = "pre-commit install --install-hooks"
+lint = "pre-commit run --all-files"
+ruff = "ruff check wavecord tests"
+ruff-fix = "ruff check wavecord tests --fix"
+pyright = "dotenv -f task.env run -- pyright"
+test = "pytest tests/ -v"
+docs = "sphinx-autobuild docs docs/_build/html --ignore docs/_build --watch wavecord --port 8069"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",
+    "I",
+    "D",
+    "UP",
+    "ANN",
+    "S",
+    "B",
+    "C4",
+    "SIM",
+    "TCH",
+    "RUF",
+    "PIE",
+    "TRY",
+    "EM",
+    "G",
+    "T20",
+    "PLC", "PLE", "PLR", "PLW",
+]
+ignore = [
+    "D107",
+    "D203",
+    "D213",
+    "ANN101",
+    "ANN102",
+    "PLR2004",
+    "PLR0913",
+    "PLR0912",
+    "PLR0915",
+    "S311",
+    "TRY003",
+]
+unfixable = ["RET502", "RET503"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"wavecord/typings/*" = ["D"]
+"tests/*" = ["D", "ANN", "S101", "S106"]
+"examples/*" = ["D", "ANN", "S101", "S106"]
+"docs/*" = ["D"]
+
+[tool.slotscheck]
+strict-imports = true
+require-superclass = true
+require-subclass = false
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.9"
+ignore = ["examples/**", "tests/**"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
