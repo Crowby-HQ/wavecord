@@ -96,39 +96,15 @@ line-length = 88
 select = [
     "E", "F", "W",
     "I",
-    "D",
-    "UP",
-    "ANN",
-    "S",
     "B",
-    "C4",
+    "UP",
     "SIM",
-    "TCH",
     "RUF",
-    "PIE",
-    "TRY",
-    "EM",
-    "G",
-    "T20",
-    "PLC", "PLE", "PLR", "PLW",
 ]
 ignore = [
-    "D107",
-    "D203",
-    "D213",
-    "ANN101",
-    "ANN102",
-    "PLR2004",
-    "PLR0913",
-    "PLR0912",
-    "PLR0915",
-    "S311",
-    "TRY003",
+    "RUF022",
 ]
 unfixable = ["RET502", "RET503"]
-
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
