@@ -4,14 +4,17 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from enum import Enum, auto
 from logging import getLogger
 from random import choice
-from typing import List, Optional, Sequence, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from .region import VoiceRegion
 from .type_variables import ClientT
+
+if TYPE_CHECKING:
+    from .node import Node
 
 __all__ = ("Strategy", "StrategyCallable", "call_strategy")
 
@@ -34,7 +37,9 @@ StrategyList = Union[
     Sequence[StrategyCallable],
     Sequence[Union["Strategy", StrategyCallable]],
 ]
-"""Accepted type for the ``default_strategies`` parameter on :class:`~wavecord.NodePool`."""
+"""Accepted type for the ``default_strategies`` parameter on
+:class:`~wavecord.NodePool`.
+"""
 
 # Match Discord voice endpoint hostnames, e.g. ``us-east1.discord.media``
 _REGION_RE = re.compile(r"(?:vip-)?(?P<region>[a-z-]{1,15})\d{1,5}\.discord\.media")
@@ -48,7 +53,9 @@ class Strategy(Enum):
     """
 
     LOCATION = auto()
-    """Pick nodes whose :attr:`~wavecord.Node.regions` match the guild's voice region."""
+    """Pick nodes whose :attr:`~wavecord.Node.regions` match the guild's
+    voice region.
+    """
 
     RANDOM = auto()
     """Pick a node at random from the remaining candidates."""
