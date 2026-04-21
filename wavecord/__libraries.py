@@ -8,7 +8,7 @@ from importlib.metadata import PackageNotFoundError, version
 from os import getenv
 from typing import TYPE_CHECKING, Any
 
-from .errors import MultipleCompatibleLibraries, NoCompatibleLibraries
+from .errors import MultipleCompatibleLibraries
 
 __all__ = (
     "Client",
@@ -186,6 +186,8 @@ else:
         from disnake.utils import MISSING
 
         if TYPE_CHECKING:
+            from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
+
             if version_info >= (2, 6):
                 from disnake.types.gateway import (
                     VoiceServerUpdateEvent as VoiceServerUpdatePayload,
@@ -194,7 +196,6 @@ else:
                 from disnake.types.voice import (
                     VoiceServerUpdate as VoiceServerUpdatePayload,  # pyright: ignore
                 )
-            from disnake.types.voice import GuildVoiceState as GuildVoiceStatePayload
 
     else:
         from discord import (
