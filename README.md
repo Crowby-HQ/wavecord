@@ -6,7 +6,7 @@ A modern, async-first Lavalink v4 client for Python Discord libraries.
 
 [![PyPI](https://img.shields.io/pypi/v/wavecord?style=for-the-badge&color=blueviolet&logo=pypi&logoColor=white)](https://pypi.org/project/wavecord)
 [![Python](https://img.shields.io/pypi/pyversions/wavecord?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/wavecord)
-[![CI](https://img.shields.io/github/actions/workflow/status/Crowby-Studios/wavecord/lint.yml?label=build&style=for-the-badge&logo=github)](https://github.com/Crowby-Studios/wavecord/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/Crowby-HQ/wavecord/lint.yml?label=build&style=for-the-badge&logo=github)](https://github.com/Crowby-HQ/wavecord/actions)
 [![License](https://img.shields.io/pypi/l/wavecord?style=for-the-badge)](LICENSE)
 [![Docs](https://img.shields.io/readthedocs/wavecord?style=for-the-badge&logo=readthedocs&logoColor=white)](https://wavecord.readthedocs.io)
 ![Typing](https://img.shields.io/badge/typing-checked-blue?style=for-the-badge)
