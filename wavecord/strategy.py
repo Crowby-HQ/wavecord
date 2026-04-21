@@ -23,8 +23,8 @@ _log = getLogger(__name__)
 # A strategy callable receives (nodes, guild_id, shard_count, endpoint)
 # and returns the filtered list of nodes.
 StrategyCallable = Callable[
-    [List["Node[ClientT]"], int, Optional[int], Optional[str]], # type: ignore[name-defined]
-    List["Node[ClientT]"], # type: ignore[name-defined]
+    [List["Node[ClientT]"], int, Optional[int], Optional[str]],  # type: ignore[name-defined]
+    List["Node[ClientT]"],  # type: ignore[name-defined]
 ]
 """Type alias for a custom strategy function.
 
@@ -80,9 +80,7 @@ def _shard_strategy(
 
     shard_id = (guild_id >> 22) % shard_count
 
-    filtered = [
-        n for n in nodes if n.shard_ids is None or shard_id in n.shard_ids
-    ]
+    filtered = [n for n in nodes if n.shard_ids is None or shard_id in n.shard_ids]
     return filtered or nodes
 
 
@@ -114,10 +112,7 @@ def _location_strategy(
         )
         return nodes
 
-    regional = [
-        n for n in nodes
-        if n.regions is not None and voice_region in n.regions
-    ]
+    regional = [n for n in nodes if n.regions is not None and voice_region in n.regions]
     if not regional:
         _log.warning(
             "No nodes configured for region %r; falling back to all nodes.",

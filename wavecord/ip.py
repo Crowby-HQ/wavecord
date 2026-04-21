@@ -187,10 +187,7 @@ class NanoIPRoutePlannerStatus(BaseIPRoutePlannerStatus):
         self.current_address_index: int = int(data["currentAddressIndex"])
 
     def __repr__(self) -> str:
-        return (
-            f"<NanoIPRoutePlannerStatus "
-            f"current_index={self.current_address_index}>"
-        )
+        return f"<NanoIPRoutePlannerStatus current_index={self.current_address_index}>"
 
 
 class RotatingNanoIPRoutePlannerStatus(BaseIPRoutePlannerStatus):
@@ -233,10 +230,7 @@ class BalancingIPRoutePlannerStatus(BaseIPRoutePlannerStatus):
     type = IPRoutePlannerType.BALANCING_IP
 
     def __repr__(self) -> str:
-        return (
-            f"<BalancingIPRoutePlannerStatus "
-            f"failing={len(self.failing_addresses)}>"
-        )
+        return f"<BalancingIPRoutePlannerStatus failing={len(self.failing_addresses)}>"
 
 
 RoutePlannerStatus = Union[

@@ -43,6 +43,7 @@ from typing import Coroutine
 
 Coro = Coroutine[Any, Any, Any]
 
+
 # Node Stats
 class CPU(TypedDict):
     cores: int
@@ -201,6 +202,7 @@ class IncomingMessage(TypedDict, total=False):
 
 
 OutgoingMessage = Dict[str, Any]
+
 
 # Route planner
 class IPBlock(TypedDict):

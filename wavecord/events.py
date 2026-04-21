@@ -165,8 +165,7 @@ class TrackStuckEvent(WavecordEvent[ClientT]):
 
     def __repr__(self) -> str:
         return (
-            f"<TrackStuckEvent track={self.track!r} "
-            f"threshold_ms={self.threshold_ms}>"
+            f"<TrackStuckEvent track={self.track!r} threshold_ms={self.threshold_ms}>"
         )
 
 

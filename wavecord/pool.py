@@ -213,6 +213,7 @@ class NodePool(Generic[ClientT]):
         del self._nodes[node.label]
 
         if transfer_players:
+
             async def _transfer(player: Player[ClientT]) -> None:
                 try:
                     target = self.get_node(
@@ -289,9 +290,7 @@ class NodePool(Generic[ClientT]):
             else list(chosen_strategies)
         )
 
-        candidates: list[Node[Any]] = cast(
-            "list[Node[ClientT]]", cls.nodes
-        )  # pyright: ignore
+        candidates: list[Node[Any]] = cast("list[Node[ClientT]]", cls.nodes)  # pyright: ignore
 
         for strategy in actual:
             if isinstance(strategy, Strategy):

@@ -520,9 +520,16 @@ class Filter:
         active = [
             k
             for k in (
-                "volume", "equalizer", "karaoke", "timescale",
-                "tremolo", "vibrato", "rotation", "distortion",
-                "channel_mix", "low_pass",
+                "volume",
+                "equalizer",
+                "karaoke",
+                "timescale",
+                "tremolo",
+                "vibrato",
+                "rotation",
+                "distortion",
+                "channel_mix",
+                "low_pass",
             )
             if getattr(self, k) is not None
         ]

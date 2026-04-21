@@ -41,6 +41,7 @@ for _lib in _SUPPORTED:
 
 if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
     if len(_found) == 0:
+
         class _MissingType:
             """Placeholder type used when no Discord library is installed."""
 

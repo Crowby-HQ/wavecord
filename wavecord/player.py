@@ -281,7 +281,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
             _log.warning("Unknown event type %r.", event_type)
 
     # VoiceProtocol interface
-    async def on_voice_state_update( # pyright: ignore[reportIncompatibleMethodOverride]
+    async def on_voice_state_update(  # pyright: ignore[reportIncompatibleMethodOverride]
         self, data: GuildVoiceStatePayload
     ) -> None:
         """Handle a Discord voice state update.
@@ -361,7 +361,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
             msg = "Voice channel must be a VoiceChannel or StageChannel."
             raise TypeError(msg)
 
-        if not NodePool.nodes: # pyright: ignore
+        if not NodePool.nodes:  # pyright: ignore
             self.cleanup()
             raise NoNodesAvailable
 
@@ -691,9 +691,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         Uses a random node as fallback if the player is not yet connected.
         """
         raw_type = (
-            search_type.value
-            if isinstance(search_type, SearchType)
-            else search_type
+            search_type.value if isinstance(search_type, SearchType) else search_type
         )
         return await self.node.fetch_tracks(query, search_type=raw_type)
 
@@ -718,7 +716,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         if self._node is node:
             return
 
-        state = await self._node.fetch_player(self.guild.id) # type: ignore[attr-defined]
+        state = await self._node.fetch_player(self.guild.id)  # type: ignore[attr-defined]
 
         self._node.remove_player(self.guild.id)
         old_node = self._node

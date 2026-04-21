@@ -157,9 +157,9 @@ class TestFilters:
 
     def test_equalizer_validation(self):
         with pytest.raises(ValueError):
-            Equalizer(bands=[(15, 0.1)]) # band out of range
+            Equalizer(bands=[(15, 0.1)])  # band out of range
         with pytest.raises(ValueError):
-            Equalizer(bands=[(0, 1.5)]) # gain out of range
+            Equalizer(bands=[(0, 1.5)])  # gain out of range
 
     def test_rotation(self):
         f = Filter(rotation=Rotation(rotation_hz=0.5))
@@ -167,27 +167,27 @@ class TestFilters:
 
     def test_tremolo_validation(self):
         with pytest.raises(ValueError):
-            Tremolo(frequency=0) # must be > 0
+            Tremolo(frequency=0)  # must be > 0
         with pytest.raises(ValueError):
             Tremolo(depth=1.5)
 
     def test_vibrato_validation(self):
         with pytest.raises(ValueError):
-            Vibrato(frequency=15.0) # max 14
+            Vibrato(frequency=15.0)  # max 14
         with pytest.raises(ValueError):
             Vibrato(depth=0.0)
 
     def test_low_pass_validation(self):
         with pytest.raises(ValueError):
-            LowPass(smoothing=1.0) # must be > 1
+            LowPass(smoothing=1.0)  # must be > 1
 
     def test_filter_or_merge(self):
         a = Filter(timescale=Timescale(speed=1.0), volume=0.8)
         b = Filter(rotation=Rotation(rotation_hz=0.3), volume=1.0)
         c = a | b
-        assert c.timescale is not None # from a
-        assert c.rotation is not None # from b
-        assert c.volume == 1.0 # b overrides
+        assert c.timescale is not None  # from a
+        assert c.rotation is not None  # from b
+        assert c.volume == 1.0  # b overrides
 
     def test_from_payload_roundtrip(self):
         original = Filter(
@@ -204,8 +204,10 @@ class TestFilters:
     def test_channel_mix(self):
         f = Filter(
             channel_mix=ChannelMix(
-                left_to_left=0.5, left_to_right=0.5,
-                right_to_left=0.5, right_to_right=0.5,
+                left_to_left=0.5,
+                left_to_right=0.5,
+                right_to_left=0.5,
+                right_to_right=0.5,
             )
         )
         cm = f.payload["channelMix"]

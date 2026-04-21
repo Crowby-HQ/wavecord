@@ -107,9 +107,7 @@ class FrameStats:
 
     def __repr__(self) -> str:
         return (
-            f"<FrameStats sent={self.sent} "
-            f"nulled={self.nulled} "
-            f"deficit={self.deficit}>"
+            f"<FrameStats sent={self.sent} nulled={self.nulled} deficit={self.deficit}>"
         )
 
 

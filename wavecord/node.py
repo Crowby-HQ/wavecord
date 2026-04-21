@@ -98,7 +98,7 @@ def _wrap_regions(
                 result.extend(region.value)
         elif isinstance(item, Region):
             result.extend(item.value)
-        elif isinstance(item, VoiceRegion): # pyright: ignore[reportUnnecessaryIsInstance]
+        elif isinstance(item, VoiceRegion):  # pyright: ignore[reportUnnecessaryIsInstance]
             result.append(item)
         else:
             msg = f"Expected Group, Region, or VoiceRegion — got {type(item)!r}."
@@ -212,9 +212,7 @@ class Node(Generic[ClientT]):
         self._rest_uri = yarl.URL.build(
             scheme=f"http{'s' * secure}", host=host, port=port
         )
-        self._ws_uri = yarl.URL.build(
-            scheme=f"ws{'s' * secure}", host=host, port=port
-        )
+        self._ws_uri = yarl.URL.build(scheme=f"ws{'s' * secure}", host=host, port=port)
         self._resume_key: str = resume_key or f"{host}:{port}:{label}"
         self._resuming_session_id: str = resuming_session_id or ""
 
@@ -300,7 +298,7 @@ class Node(Generic[ClientT]):
         - Memory pressure (exponential near capacity)
         """
         if self._stats is None:
-            return 6.63e34 # enormous sentinel - treat as worst case
+            return 6.63e34  # enormous sentinel - treat as worst case
 
         s = self._stats
 
@@ -397,7 +395,9 @@ class Node(Generic[ClientT]):
                 major, minor = 4, 0
             else:
                 major, minor = 3, 7
-                warnings.warn(UnknownVersionWarning.message, UnknownVersionWarning, stacklevel=4)
+                warnings.warn(
+                    UnknownVersionWarning.message, UnknownVersionWarning, stacklevel=4
+                )
         else:
             if major not in (3, 4) or (major == 3 and minor < 7):
                 msg = (
@@ -422,7 +422,7 @@ class Node(Generic[ClientT]):
     async def _connect_to_websocket(
         self, headers: dict[str, str], session: aiohttp.ClientSession
     ) -> None:
-        self._ws = await session.ws_connect( # pyright: ignore
+        self._ws = await session.ws_connect(  # pyright: ignore
             self._ws_uri,
             timeout=self._timeout,
             heartbeat=self._heartbeat,
@@ -465,7 +465,7 @@ class Node(Generic[ClientT]):
 
         headers: dict[str, str] = {
             "Authorization": self.__password,
-            "User-Id": str(self._client.user.id), # type: ignore[union-attr]
+            "User-Id": str(self._client.user.id),  # type: ignore[union-attr]
             "Client-Name": "WaveCord/1.0.0",
         }
 
@@ -507,7 +507,9 @@ class Node(Generic[ClientT]):
         try:
             await wait_for(self._ready.wait(), timeout=self._timeout)
         except TimeoutError:
-            _log.error("Timed out waiting for node ready.", extra={"label": self._label})
+            _log.error(
+                "Timed out waiting for node ready.", extra={"label": self._label}
+            )
             raise
 
         _log.info("Node '%s' is ready.", self._label, extra={"label": self._label})
@@ -556,7 +558,7 @@ class Node(Generic[ClientT]):
 
         while True:
             msg = await self._ws.receive()
-            _type: aiohttp.WSMsgType = msg.type # pyright: ignore
+            _type: aiohttp.WSMsgType = msg.type  # pyright: ignore
 
             if _type is aiohttp.WSMsgType.CLOSED:
                 self._available = False
@@ -604,11 +606,11 @@ class Node(Generic[ClientT]):
             player.update_state(data["state"])
 
         elif op == "stats":
-            self._stats = NodeStats(data) # type: ignore[arg-type]
+            self._stats = NodeStats(data)  # type: ignore[arg-type]
             self._client.dispatch("node_stats", self)
 
         elif op == "event":
-            await self._handle_event(data) # type: ignore[arg-type]
+            await self._handle_event(data)  # type: ignore[arg-type]
 
         elif op == "ready":
             resumed = data["resumed"]
@@ -642,9 +644,7 @@ class Node(Generic[ClientT]):
                 vc = cast("Player[ClientT]", vc)
                 if vc.node is not self:
                     return
-                _log.debug(
-                    "WebSocketClosedEvent for guild %s — cleaning up.", guild_id
-                )
+                _log.debug("WebSocketClosedEvent for guild %s — cleaning up.", guild_id)
                 await vc.disconnect(force=True)
                 return
 
@@ -702,7 +702,8 @@ class Node(Generic[ClientT]):
         """Send session resuming configuration to Lavalink."""
         if self._version == 3:
             _log.info(
-                "Configuring v3 resume with key %s.", self._resume_key,
+                "Configuring v3 resume with key %s.",
+                self._resume_key,
                 extra={"label": self._label},
             )
             payload: UpdateSessionPayload = {
@@ -711,7 +712,8 @@ class Node(Generic[ClientT]):
             }
         else:
             _log.info(
-                "Configuring v4 resume with session %s.", self._session_id,
+                "Configuring v4 resume with session %s.",
+                self._session_id,
                 extra={"label": self._label},
             )
             payload = {"resuming": True, "timeout": 60}
@@ -923,9 +925,7 @@ class Node(Generic[ClientT]):
                 cast(RotatingIPRouteDetails, data["details"])
             )
         elif cls == "NanoIpRoutePlanner":
-            return NanoIPRoutePlannerStatus(
-                cast(NanoIPRouteDetails, data["details"])
-            )
+            return NanoIPRoutePlannerStatus(cast(NanoIPRouteDetails, data["details"]))
         elif cls == "RotatingNanoIpRoutePlanner":
             return RotatingNanoIPRoutePlannerStatus(
                 cast(RotatingNanoIPRouteDetails, data["details"])
@@ -975,11 +975,11 @@ class Node(Generic[ClientT]):
 
         player = (cls or Player)(self._client, voice_state.channel)
         player.set_state(state)
-        player._node = self # pyright: ignore[reportPrivateUsage]
+        player._node = self  # pyright: ignore[reportPrivateUsage]
         self._players[player_id] = player
 
-        key, _ = player.channel._get_voice_client_key() # pyright: ignore
-        self._client._connection._add_voice_client(key, player) # pyright: ignore
+        key, _ = player.channel._get_voice_client_key()  # pyright: ignore
+        self._client._connection._add_voice_client(key, player)  # pyright: ignore
 
     async def _remove_unknown_player(self, player_id: int) -> None:
         await self._players[player_id].disconnect(force=True)
@@ -1004,10 +1004,7 @@ class Node(Generic[ClientT]):
                 self._add_unknown_player(pid, actual[pid], cls=player_cls)
                 for pid in actual_ids - expected_ids
             ),
-            *(
-                self._remove_unknown_player(pid)
-                for pid in expected_ids - actual_ids
-            ),
+            *(self._remove_unknown_player(pid) for pid in expected_ids - actual_ids),
         )
 
     # Internal HTTP helper
@@ -1023,7 +1020,11 @@ class Node(Generic[ClientT]):
 
         uri = self._rest_uri / path
         _log.debug(
-            "%s %s payload=%r params=%r", method, uri, json, params,
+            "%s %s payload=%r params=%r",
+            method,
+            uri,
+            json,
+            params,
             extra={"label": self._label},
         )
 
