@@ -2,7 +2,7 @@
 name = "wavecord"
 version = "1.0.0"
 description = "A modern, async-first Lavalink v4 client for Python Discord libraries."
-authors = ["Crowby Studios <hello@crowby.dev>"]
+authors = ["Crowby Inc. <hello@crowby.dev>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/Crowby-Studios/wavecord"
