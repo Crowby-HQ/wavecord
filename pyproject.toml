@@ -42,7 +42,7 @@ packages = [{ include = "wavecord" }]
 python = ">=3.9,<4.0"
 aiohttp = "^3.10.0"
 yarl = "^1.9.0"
-orjson = { version = "^3.9.0", optional = true }
+orjson = { version = ">=3.11.8,<4.0.0", optional = true }
 discord-py = "^2.7.1"
 
 [tool.poetry.extras]
@@ -67,7 +67,7 @@ nextcord = { version = "^3.0.1", python = ">=3.12,<4.0" }
 disnake = "^2.9.0"
 py-cord = "^2.6.0"
 "discord.py" = "^2.4.0"
-orjson = "^3.9.0"
+orjson = ">=3.11.8,<4.0.0"
 
 [tool.poetry.group.docs]
 optional = true
