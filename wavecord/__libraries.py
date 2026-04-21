@@ -39,7 +39,7 @@ for _lib in _SUPPORTED:
     else:
         _found.append(_lib)
 
-if not getenv("LYRA_IGNORE_LIBRARY_CHECK"):
+if not getenv("WAVECORD_IGNORE_LIBRARY_CHECK"):
     if len(_found) == 0:
         raise NoCompatibleLibraries
     elif len(_found) > 1:
@@ -71,9 +71,9 @@ else:
 
 if _library == "nextcord":
     if version_info.major not in (2, 3):
-        raise RuntimeError("Lyra requires nextcord version 2 or 3.")
+        raise RuntimeError("WaveCord requires nextcord version 2 or 3.")
 elif version_info.major != 2:
-    raise RuntimeError(f"Lyra requires version 2 of {_library}.")
+    raise RuntimeError(f"WaveCord requires version 2 of {_library}.")
 
 # Imports by library
 if _library == "nextcord":
