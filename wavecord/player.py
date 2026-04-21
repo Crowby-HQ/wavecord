@@ -11,7 +11,7 @@ from functools import reduce
 from logging import getLogger
 from operator import or_
 from time import time
-from typing import TYPE_CHECKING, Generic, Optional, cast
+from typing import TYPE_CHECKING, Any, Generic, cast
 
 from .__libraries import (
     MISSING,
@@ -36,7 +36,12 @@ from .type_variables import ClientT
 from .typings import TrackWithInfo
 
 if TYPE_CHECKING:
-    from .__libraries import Connectable, Guild, GuildVoiceStatePayload, VoiceServerUpdatePayload
+    from .__libraries import (
+        Connectable,
+        Guild,
+        GuildVoiceStatePayload,
+        VoiceServerUpdatePayload,
+    )
     from .node import Node
     from .playlist import Playlist
     from .typings import EventPayload, PlayerUpdateState
@@ -344,7 +349,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         self,
         *,
         timeout: float,
-        reconnect: bool, # noqa: ARG002
+        reconnect: bool,
         self_mute: bool = False,
         self_deaf: bool = False,
     ) -> None:
@@ -534,7 +539,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         """
         await self.update(track=None, replace=True)
 
-    async def pause(self, pause: bool = True) -> None: # noqa: FBT001, FBT002
+    async def pause(self, pause: bool = True) -> None:
         """Pause or unpause playback.
 
         Parameters
@@ -555,7 +560,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         ------
         PlayerNotConnected
         """
-        await self.pause(False) # noqa: FBT003
+        await self.pause(False)
 
     async def seek(self, position: int, /) -> None:
         """Seek to a position in the current track.
@@ -685,7 +690,11 @@ class Player(VoiceProtocol, Generic[ClientT]):
         -----
         Uses a random node as fallback if the player is not yet connected.
         """
-        raw_type = search_type.value if isinstance(search_type, SearchType) else search_type
+        raw_type = (
+            search_type.value
+            if isinstance(search_type, SearchType)
+            else search_type
+        )
         return await self.node.fetch_tracks(query, search_type=raw_type)
 
     # Node transfer
@@ -721,7 +730,9 @@ class Player(VoiceProtocol, Generic[ClientT]):
             raise RuntimeError(msg)
 
         if not isinstance(self.channel, (VoiceChannel, StageChannel)):
-            _log.warning("Cannot transfer: channel type is not VoiceChannel/StageChannel.")
+            _log.warning(
+                "Cannot transfer: channel type is not VoiceChannel/StageChannel."
+            )
             return
 
         await self._node.voice_update(
@@ -746,7 +757,7 @@ class Player(VoiceProtocol, Generic[ClientT]):
         await old_node.destroy(guild_id=self.guild.id)
 
     # Deprecated
-    async def destroy(self) -> None: # noqa: D102
+    async def destroy(self) -> None:
         warnings.warn(
             "Player.destroy() is deprecated and will be removed in a future release. "
             "Use Player.disconnect() instead.",
