@@ -1,6 +1,6 @@
 <div align="center">
 
-![WaveCord](https://i.imgur.com/c6p2lDQ.png)
+![WaveCord](https://i.imgur.com/md48CE6.png)
 
 A modern, async-first Lavalink v4 client for Python Discord libraries.
 
