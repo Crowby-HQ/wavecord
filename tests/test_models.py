@@ -9,7 +9,6 @@ import pytest
 
 from wavecord.ip import (
     BalancingIPRoutePlannerStatus,
-    FailingAddress,
     IPBlock,
     IPBlockType,
     IPRoutePlannerType,
@@ -153,12 +152,16 @@ class TestStatsExtended:
         assert "3000" in r
 
     def test_uptime_is_timedelta(self):
-        s = NodeStats({
-            "players": 1, "playingPlayers": 1, "uptime": 3600000,
-            "memory": {"free": 0, "used": 0, "allocated": 0, "reservable": 0},
-            "cpu": {"cores": 1, "systemLoad": 0.0, "lavalinkLoad": 0.0},
-            "frameStats": None,
-        })
+        s = NodeStats(
+            {
+                "players": 1,
+                "playingPlayers": 1,
+                "uptime": 3600000,
+                "memory": {"free": 0, "used": 0, "allocated": 0, "reservable": 0},
+                "cpu": {"cores": 1, "systemLoad": 0.0, "lavalinkLoad": 0.0},
+                "frameStats": None,
+            }
+        )
         assert isinstance(s.uptime, timedelta)
         assert s.uptime == timedelta(hours=1)
 
@@ -194,36 +197,46 @@ class TestIPRoutePlannerExtended:
     _BASE = {
         "ipBlock": {"type": "Inet6Address", "size": "65536"},
         "failingAddresses": [
-            {"address": "2001:db8::1", "failingTimestamp": 1700000000000, "failingTime": "..."}
+            {
+                "address": "2001:db8::1",
+                "failingTimestamp": 1700000000000,
+                "failingTime": "...",
+            }
         ],
     }
 
     def test_failing_address_parsed(self):
-        status = RotatingIPRoutePlannerStatus({
-            **self._BASE,
-            "rotateIndex": "0",
-            "ipIndex": "0",
-            "currentAddress": "2001:db8::2",
-        })
+        status = RotatingIPRoutePlannerStatus(
+            {
+                **self._BASE,
+                "rotateIndex": "0",
+                "ipIndex": "0",
+                "currentAddress": "2001:db8::2",
+            }
+        )
         assert len(status.failing_addresses) == 1
         fa = status.failing_addresses[0]
         assert fa.address == "2001:db8::1"
         assert fa.failed_at is not None
 
     def test_nano_planner(self):
-        status = NanoIPRoutePlannerStatus({
-            **self._BASE,
-            "currentAddressIndex": "42",
-        })
+        status = NanoIPRoutePlannerStatus(
+            {
+                **self._BASE,
+                "currentAddressIndex": "42",
+            }
+        )
         assert status.type == IPRoutePlannerType.NANO_IP
         assert status.current_address_index == 42
 
     def test_rotating_nano_planner(self):
-        status = RotatingNanoIPRoutePlannerStatus({
-            **self._BASE,
-            "blockIndex": "3",
-            "currentAddressIndex": "100",
-        })
+        status = RotatingNanoIPRoutePlannerStatus(
+            {
+                **self._BASE,
+                "blockIndex": "3",
+                "currentAddressIndex": "100",
+            }
+        )
         assert status.type == IPRoutePlannerType.ROTATING_NANO_IP
         assert status.block_index == 3
 

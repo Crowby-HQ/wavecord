@@ -181,7 +181,9 @@ async def nowplaying(ctx: commands.Context) -> None:
 
     embed = discord.Embed(title="Now Playing", color=0x5865F2)
     embed.description = f"**{track}**"
-    embed.add_field(name="Progress", value=f"`{bar}` {position}s / {duration}s", inline=False)
+    embed.add_field(
+        name="Progress", value=f"`{bar}` {position}s / {duration}s", inline=False
+    )
     embed.add_field(name="Source", value=track.source.capitalize(), inline=True)
     embed.add_field(name="Volume", value=f"{player.volume}", inline=True)
     if track.artwork_url:

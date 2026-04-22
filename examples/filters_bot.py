@@ -34,8 +34,14 @@ PRESETS: dict[str, wavecord.Filter] = {
     "bassboost": wavecord.Filter(
         equalizer=wavecord.Equalizer(
             bands=[
-                (0, 0.6), (1, 0.5), (2, 0.4), (3, 0.3), (4, 0.2),
-                (5, 0.1), (6, 0.0), (7, -0.05),
+                (0, 0.6),
+                (1, 0.5),
+                (2, 0.4),
+                (3, 0.3),
+                (4, 0.2),
+                (5, 0.1),
+                (6, 0.0),
+                (7, -0.05),
             ]
         ),
     ),
@@ -55,8 +61,10 @@ PRESETS: dict[str, wavecord.Filter] = {
     ),
     "mono": wavecord.Filter(
         channel_mix=wavecord.ChannelMix(
-            left_to_left=0.5, left_to_right=0.5,
-            right_to_left=0.5, right_to_right=0.5,
+            left_to_left=0.5,
+            left_to_right=0.5,
+            right_to_left=0.5,
+            right_to_right=0.5,
         ),
     ),
 }
@@ -135,7 +143,9 @@ async def nightcore(ctx: commands.Context) -> None:
         await player.remove_filter("nightcore", fast_apply=True)
         await ctx.send("✅ Nightcore removed.")
     else:
-        await player.add_filter(PRESETS["nightcore"], label="nightcore", fast_apply=True)
+        await player.add_filter(
+            PRESETS["nightcore"], label="nightcore", fast_apply=True
+        )
         await ctx.send("🌙 Nightcore enabled!")
 
 
@@ -150,7 +160,9 @@ async def bassboost(ctx: commands.Context) -> None:
         await player.remove_filter("bassboost", fast_apply=True)
         await ctx.send("✅ Bass boost removed.")
     else:
-        await player.add_filter(PRESETS["bassboost"], label="bassboost", fast_apply=True)
+        await player.add_filter(
+            PRESETS["bassboost"], label="bassboost", fast_apply=True
+        )
         await ctx.send("🔊 Bass boost enabled!")
 
 
@@ -180,7 +192,9 @@ async def slowreverb(ctx: commands.Context) -> None:
         await player.remove_filter("slowreverb", fast_apply=True)
         await ctx.send("✅ Slow reverb removed.")
     else:
-        await player.add_filter(PRESETS["slowreverb"], label="slowreverb", fast_apply=True)
+        await player.add_filter(
+            PRESETS["slowreverb"], label="slowreverb", fast_apply=True
+        )
         await ctx.send("🌊 Slow reverb enabled!")
 
 
