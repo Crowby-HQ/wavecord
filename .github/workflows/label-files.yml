@@ -1,0 +1,33 @@
+name: Label — Changed Files
+
+# Adds subsystem labels to PRs based on which files were modified.
+# Labels are additive — opening a PR touching both filter.py and node.py
+# will add both "lavalink: filters" and "lavalink: node / pool".
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  labeler:
+    name: Apply file-based labels
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply labels via actions/labeler
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # The mapping lives in .github/labeler.yml (see below)
+          configuration-path: .github/labeler.yml
+          # Don't wipe labels that were set manually
+          sync-labels: false
