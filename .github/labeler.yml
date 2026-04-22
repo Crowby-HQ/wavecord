@@ -1,0 +1,80 @@
+# .github/labeler.yml
+# Used by label-files.yml  (actions/labeler@v5)
+# Docs: https://github.com/actions/labeler
+
+# Lavalink subsystems
+
+"lavalink: node / pool":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/node.py
+          - wavecord/pool.py
+          - wavecord/strategy.py
+          - wavecord/region.py
+
+"lavalink: player":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/player.py
+          - wavecord/track.py
+          - wavecord/playlist.py
+          - wavecord/search_type.py
+
+"lavalink: filters":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/filter.py
+
+"lavalink: ip route planner":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/ip.py
+
+"lavalink: compatibility":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/__libraries.py
+
+# Typing
+
+"typing":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.pyi"
+          - wavecord/**/*.py   # pyright config or inline annotations
+
+# Documentation
+
+"docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "*.md"
+          - "*.rst"
+          - .readthedocs.yaml
+
+# Tests
+
+"pr: needs tests":
+  - changed-files:
+      # Label when wavecord source changes but no test file is touched
+      - all-globs-to-all-files:
+          - "wavecord/**/*.py"
+      - all-globs-to-all-files:
+          - "!tests/**"
+
+# CI / tooling
+
+"pr: dependencies":
+  - changed-files:
+      - any-glob-to-any-file:
+          - poetry.lock
+          - pyproject.toml
+
+# Breaking change hint (manual review still required)
+# This catches common patterns; a maintainer should confirm before merging.
+
+"pr: breaking change":
+  - changed-files:
+      - any-glob-to-any-file:
+          - wavecord/__init__.py   # public API surface
