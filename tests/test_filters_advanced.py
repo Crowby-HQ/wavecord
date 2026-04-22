@@ -64,19 +64,15 @@ class TestFilterPayloadRoundtrip:
         original = Filter(
             volume=0.75,
             equalizer=Equalizer(bands=[(0, 0.1), (3, -0.05), (14, 0.2)]),
-            karaoke=Karaoke(
-                level=0.9, mono_level=0.8, filter_band=200.0, filter_width=80.0
-            ),
+            karaoke=Karaoke(level=0.9, mono_level=0.8, filter_band=200.0, filter_width=80.0),
             timescale=Timescale(speed=1.1, pitch=0.9, rate=1.0),
             tremolo=Tremolo(frequency=5.0, depth=0.3),
             vibrato=Vibrato(frequency=6.0, depth=0.4),
             rotation=Rotation(rotation_hz=0.5),
             distortion=Distortion(sin_scale=1.5, cos_offset=0.2, offset=0.1, scale=1.2),
             channel_mix=ChannelMix(
-                left_to_left=0.8,
-                left_to_right=0.2,
-                right_to_left=0.3,
-                right_to_right=0.7,
+                left_to_left=0.8, left_to_right=0.2,
+                right_to_left=0.3, right_to_right=0.7,
             ),
             low_pass=LowPass(smoothing=15.0),
         )
@@ -126,7 +122,7 @@ class TestEqualizerEdgeCases:
 class TestSearchTypeEdgeCases:
     def test_str_value_is_prefix(self):
         # SearchType is a str enum — value should be usable directly
-        query = f"{SearchType.YOUTUBE}:test query"
+        query = f"{SearchType.YOUTUBE.value}:test query"
         assert query == "ytsearch:test query"
 
     def test_all_search_types_have_nonempty_value(self):
