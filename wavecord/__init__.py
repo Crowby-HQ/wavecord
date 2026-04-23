@@ -72,7 +72,7 @@ __title__ = "wavecord"
 __author__ = "Crowby Inc."
 __license__ = "MIT"
 __copyright__ = "Copyright 2024-Present Crowby Inc."
-__version__ = "1.0.0"
+__version__ = "0.1.0"
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 

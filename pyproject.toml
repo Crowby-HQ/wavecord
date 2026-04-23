@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wavecord"
-version = "1.0.0"
+version = "0.1.0"
 description = "A modern, async-first Lavalink v4 client for Python Discord libraries."
 authors = ["Crowby Inc. <hello@crowby.dev>"]
 license = "MIT"
